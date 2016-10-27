@@ -1,9 +1,9 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DES_RulesImport", "DES_RulesImport.csproj", "{AA21FE63-7A19-4DD5-94B9-91BEBF7CBFAE}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DES_RulesImport", "DES_RulesImport.vbproj", "{2608CC8F-AB70-479D-95CB-4D1A7A88E2F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AA21FE63-7A19-4DD5-94B9-91BEBF7CBFAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA21FE63-7A19-4DD5-94B9-91BEBF7CBFAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AA21FE63-7A19-4DD5-94B9-91BEBF7CBFAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA21FE63-7A19-4DD5-94B9-91BEBF7CBFAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2608CC8F-AB70-479D-95CB-4D1A7A88E2F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2608CC8F-AB70-479D-95CB-4D1A7A88E2F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2608CC8F-AB70-479D-95CB-4D1A7A88E2F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2608CC8F-AB70-479D-95CB-4D1A7A88E2F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
