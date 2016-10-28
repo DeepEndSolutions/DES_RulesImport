@@ -53,7 +53,7 @@ Public Class frmMain
 
             'make sure there is at least on row of data but skip first row since it should be header
             If oWorksheet.Range("A" & oWorksheet.Rows.Count).End(Excel.XlDirection.xlUp).Row >= 2 Then
-                intRows = oWorksheet.Range("A" & oWorksheet.Rows.Count).End(Excel.XlDirection.xlUp).Row
+                intRows = oWorksheet.Range("B" & oWorksheet.Rows.Count).End(Excel.XlDirection.xlUp).Row
 
                 pbImportProgress.Minimum = 0
                 pbImportProgress.Maximum = intRows
@@ -72,28 +72,38 @@ Public Class frmMain
 
                     'get each cell and put into field for the Section
                     oCell = oWorksheet.Range("A" & intFor)
-                    If oCell.Value IsNot Nothing Then
-                        strRule = oCell.Value.ToString.Substring(0, oCell.Value.ToString.IndexOf(" "))
-                        strRuleDescription = oCell.Value.ToString.Substring(oCell.Value.ToString.IndexOf(" ") + 1)
-                        strRuleInsert = "INSERT INTO RuleSection VALUES ('" & strRule & "','" & strRuleDescription & "')"
-                        'Writeline
-                        WriteToRuleInsert(strRuleInsert)
+                    'Check if row is hidden.  Skip if hidden
+                    If oCell.EntireRow.Hidden = False Then
+                        If oCell.Value IsNot Nothing Then
+                            strRule = oCell.Value.ToString.Substring(0, oCell.Value.ToString.IndexOf(" "))
+                            strRuleDescription = oCell.Value.ToString.Substring(oCell.Value.ToString.IndexOf(" ") + 1)
+                            strRuleInsert = "INSERT INTO RuleSection VALUES ('" & strRule & "','" & strRuleDescription & "')"
+                            'Writeline
+                            WriteToRuleInsert(strRuleInsert)
+                        End If
+
+                        'get each cell and put into field for the SubSection and description
+                        oCell = oWorksheet.Range("B" & intFor)
+                        If oCell.Value IsNot Nothing Then
+                            strRuleSubSection = oCell.Value.ToString
+                            oCell = oWorksheet.Range("C" & intFor)
+                            If oCell.Value IsNot Nothing Then
+                                strRuleSubSectionDescription = oCell.Value
+                                'Replace " with blank char and replace newlines (char(10) and char(13)) with a space
+                                strRuleSubSectionDescription = strRuleSubSectionDescription.Replace(Chr(34), "").Replace(Chr(10), " ").Replace(Chr(13), " ")
+                                strRuleInsert = "INSERT INTO RuleSubSection VALUES ('" & strRule & "','" & strRuleSubSection & "','" & strRuleSubSectionDescription & "')"
+                                'Writeline
+                                WriteToRuleInsert(strRuleInsert)
+                                'Create line for TOCRules that will need to add TOCID later.  Grab OSM screen for now and replace with TOCID
+                                oCell = oWorksheet.Range("E" & intFor)
+                                If oCell.Value IsNot Nothing Then
+                                    strRuleInsert = "INSERT INTO TOCRules VALUES ('" & strRule & "','" & strRuleSubSection & "','" & oCell.Value & "')"
+                                    WriteToRuleInsert(strRuleInsert)
+                                End If
+                            End If
+                        End If
                     End If
 
-                    'get each cell and put into field for the SubSection and description
-                    oCell = oWorksheet.Range("B" & intFor)
-                    If oCell.Value IsNot Nothing Then
-                        strRuleSubSection = oCell.Value.ToString
-                        oCell = oWorksheet.Range("C" & intFor)
-                        If oCell.Value IsNot Nothing Then
-                            strRuleSubSectionDescription = oCell.Value
-                        End If
-                        'Replace " with blank char and replace newlines (char(10) and char(13)) with a space
-                        strRuleSubSectionDescription = strRuleSubSectionDescription.Replace(Chr(34), "").Replace(Chr(10), " ").Replace(Chr(13), " ")
-                        strRuleInsert = "INSERT INTO RuleSubSection VALUES ('" & strRule & "','" & strRuleSubSection & "','" & strRuleSubSectionDescription & "')"
-                        'Writeline
-                        WriteToRuleInsert(strRuleInsert)
-                    End If
                     pbImportProgress.PerformStep()
 
                 Next
