@@ -49,7 +49,8 @@ Public Class frmMain
             Dim strRuleDescription As String = ""
             Dim strRuleSubSection As String = ""
             Dim strRuleSubSectionDescription As String = ""
-
+            Dim strTOCRulesScreen As String = ""
+            Dim arrTOCRules As String() = Nothing
 
             'make sure there is at least on row of data but skip first row since it should be header
             If oWorksheet.Range("A" & oWorksheet.Rows.Count).End(Excel.XlDirection.xlUp).Row >= 2 Then
@@ -97,8 +98,14 @@ Public Class frmMain
                                 'Create line for TOCRules that will need to add TOCID later.  Grab OSM screen for now and replace with TOCID
                                 oCell = oWorksheet.Range("E" & intFor)
                                 If oCell.Value IsNot Nothing Then
-                                    strRuleInsert = "INSERT INTO TOCRules VALUES ('" & strRule & "','" & strRuleSubSection & "','" & oCell.Value & "')"
-                                    WriteToRuleInsert(strRuleInsert)
+                                    strTOCRulesScreen = oCell.Value
+                                    strTOCRulesScreen = strTOCRulesScreen.Replace(Chr(34), "").Replace(Chr(10), " ").Replace(Chr(13), " ")
+                                    arrTOCRules = strTOCRulesScreen.Split(",")
+                                    For Each TOCRuleScreen As String In arrTOCRules
+                                        strRuleInsert = "INSERT INTO TOCRules VALUES ('" & strRule & "','" & strRuleSubSection & "','" & Trim(TOCRuleScreen) & "')"
+                                        WriteToRuleInsert(strRuleInsert)
+                                    Next
+
                                 End If
                             End If
                         End If
